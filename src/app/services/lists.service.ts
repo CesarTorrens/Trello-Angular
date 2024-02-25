@@ -4,23 +4,18 @@ import { Board } from '@models/board.model';
 import { environment } from '@environments/environment';
 import { User } from '@models/user.model';
 import { checkToken } from '@interceptors/token.interceptor';
+import { CreateListDto, List } from '@models/list.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class MeService {
+export class ListsService {
   apiUrl = environment.API_URL;
 
   constructor(private http: HttpClient) {}
 
-  getMeProfile() {
-    return this.http.get<User>(`${this.apiUrl}/api/v1/me/profile`, {
-      context: checkToken(),
-    });
-  }
-
-  getMyBoards() {
-    return this.http.get<Board[]>(`${this.apiUrl}/api/v1/me/boards`, {
+  create(dto: CreateListDto) {
+    return this.http.post<List>(`${this.apiUrl}/api/v1/lists`, dto, {
       context: checkToken(),
     });
   }
